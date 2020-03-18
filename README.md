@@ -7,7 +7,7 @@ direction and first next stop id.
 This package was built with python 3.7 and the requests package
 
 ## How To Use
-'''python
+```python
 import hungry
 
 fbr = hungry.FindBestResturants(
@@ -20,9 +20,9 @@ best_restaurant = fbr.search_by_route(
     direction="northbound",
     next_stop_id="1438"
 )
-'''
-The output
-'''
+```
+### The output
+```
 {'7vsOVA4wrHP6f3DMQdD8og': {'id': '7vsOVA4wrHP6f3DMQdD8og',
   'alias': 'volare-ristorante-italiano-chicago',
   'name': 'Volare Ristorante Italiano',
@@ -47,4 +47,4 @@ The output
   'phone': '+13124109900',
   'display_phone': '(312) 410-9900',
   'distance': 10.616120022366152}}
-'''
+```
