@@ -53,12 +53,14 @@ class Route:
             direction to prevent over counting
         '''
 
+        # Some routes only have one direction
         if self.dirs_count == 1:
             reverse_dir = current_direction
         else:
             route_directions = list(self.routes.keys())
             route_directions.remove(current_direction)
             reverse_dir = route_directions.pop()
+
         # returns everything but the first stop to prevent repetition
         reverse_route = self.routes[reverse_dir][1:]
         return reverse_route
@@ -87,19 +89,14 @@ class Route:
             A list containing stops in sequencial order based on a direction
             and route
         '''
-        stops_sequence = []
+
+        # Set up nessiary variables and values
         stop_index = get_elem_index(self.routes[direction], next_stop)
         reverse_route = self.get_reverse_direction(direction)
+
         # join to handle cases where next stops are in the other direction
-        next_points = self.routes[direction][stop_index:] + reverse_route
-        for point in next_points:
-            if point["typ"] == "S":
-                stop = reduce_dict_by_keys(
-                    point, ["lat", "lon", "stpid", "stpnm"]
-                )
-                stops_sequence.append(stop)
-                seq_num -= 1
-        return stops_sequence
+        subsequent_stops = self.routes[direction][stop_index:] + reverse_route
+        return subsequent_stops[:seq_num]
 
 
 def get_elem_index(elem_list, elem):
@@ -118,37 +115,13 @@ def get_elem_index(elem_list, elem):
     i: int
         The index of elem in the elem_list
     '''
+
     i = 0
     for ele in elem_list:
         if ele == elem:
             break
         i += 1
     return i
-
-
-def reduce_dict_by_keys(dict, key_list):
-    '''
-    This function takes in a dict and returns a dict with only keys in the key
-    list
-
-    Parameters
-    ----------
-    dict: dict{}
-        A dict containing some keys
-    key_list: list[str]
-        A list containing keys we want to keep in the dictionary
-
-    Returns
-    ----------
-    filtered: dict{k:v}
-        A dictionary containg key value pairs with only keys founnd in the
-        key list
-    '''
-    filtered = {}
-    for k in dict.keys():
-        if k in key_list:
-            filtered.update({k: dict[k]})
-    return filtered
 
 
 def select_by_keyvalue(list_of_dicts, key, value):
@@ -174,6 +147,7 @@ def select_by_keyvalue(list_of_dicts, key, value):
         A list of dictionaries containing dictionaires who have the specified
         key value pair
     '''
+
     selected = []
     for dict in list_of_dicts:
         if key in dict.keys():
