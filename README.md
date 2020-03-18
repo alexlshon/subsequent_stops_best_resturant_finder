@@ -1,4 +1,4 @@
-# BCBS Coding Challenge
+# Subsequent Stops Best Resturant Finder
 This is python package to find the best rated restaurant in Yelp that is
 located within 20 meters of the next 7 subsequent bus stops given a bus route,
 direction and first next stop id.
